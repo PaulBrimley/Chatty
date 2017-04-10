@@ -1,0 +1,11 @@
+
+.DS_Store
+.idea/
+node_modules/
+config.js
+npm-debug.log
+war/
+dist/
+*.docx
+*.xlsx
+*.pdf
