@@ -1,0 +1,9 @@
+/* This is the main entry point for styles. Every style sheet needs to be included here */
+
+$icon-font-path: 'fonts/bootstrap/' !default;
+@import 'variables.scss';
+@import 'node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import 'node_modules/croppie/croppie.css';
+@import 'node_modules/ng-img-crop/source/scss/ng-img-crop.scss';
+@import 'node_modules/angularjs-toaster/toaster.scss';
+@import 'croppie.scss';

@@ -1,37 +1,33 @@
-var gulp          = require('gulp'),
-    templateCache = require('gulp-angular-templatecache'),
-    del           = require('del'),
+var autoprefixer  = require('gulp-autoprefixer'),
+    browserSync   = require("browser-sync"),
     concat        = require('gulp-concat'),
+    del           = require('del'),
+    fs            = require('fs'),
+    gulp          = require('gulp'),
+    gulpif        = require('gulp-if'),
     inject        = require("gulp-inject"),
-    minifyCSS     = require('gulp-clean-css'),
-    ngAnnotate    = require('gulp-ng-annotate'),
-    plumber       = require('gulp-plumber'),
     jshint        = require('gulp-jshint'),
-    stylish       = require('jshint-stylish'),
+    minifyCSS     = require('gulp-clean-css'),
+    nodemon       = require('gulp-nodemon'),
+    ngAnnotate    = require('gulp-ng-annotate'),
     notify        = require('gulp-notify'),
+    p             = require('./package.json'),
+    path          = require('path'),
+    plumber       = require('gulp-plumber'),
     rename        = require('gulp-rename'),
     replace       = require('gulp-replace'),
-    util          = require('gulp-util'),
     sass          = require('gulp-sass'),
     sourcemaps    = require('gulp-sourcemaps'),
+    stylish       = require('jshint-stylish'),
+    templateCache = require('gulp-angular-templatecache'),
     uglify        = require('gulp-uglify'),
-    browserSync   = require("browser-sync"),
-    gulpif        = require('gulp-if'),
-    autoprefixer  = require('gulp-autoprefixer'),
+    util          = require('gulp-util'),
     war           = require('gulp-war'),
     zip           = require('gulp-zip'),
-    fs            = require('fs'),
-    p             = require('./package.json'),
     src = {
         root: 'src/app/',
         styles: [
             'src/assets/styles/main.scss'
-        ],
-        scripts: [
-            'src/app/app.js',
-            'src/app/admin/**/*.js',
-            'src/app/affiliate/**/*.js',
-            'src/app/common/**/*.js'
         ],
         vendors: [
             'node_modules/jquery/dist/jquery.min.js',
@@ -41,8 +37,6 @@ var gulp          = require('gulp'),
             'node_modules/angular-ui-router/release/angular-ui-router.min.js',
             'node_modules/angular-local-storage/dist/angular-local-storage.min.js',
             'node_modules/angularjs-toaster/toaster.min.js',
-            'node_modules/angular-dsv/angular-dsv.min.js',
-            'node_modules/ng-fittext/dist/ng-FitText.min.js',
             'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
             'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
             'node_modules/angular-ui-mask/dist/mask.js',
@@ -51,8 +45,8 @@ var gulp          = require('gulp'),
         ]
     },
     dist = {
-        root: 'backOffice/',
-        assets: 'backOffice/assets/',
+        root: 'dist/',
+        assets: 'dist/assets/',
         war: './war'
     },
     watchoff = util.env.watchoff,
@@ -202,16 +196,6 @@ gulp.task('lint', function() {
 
 
 //=============================================================================
-//KARMA - unit testing
-//=============================================================================
-//gulp.task('test', function (done) {
-// karma.start({
-// configFile: __dirname + '/test/karma.conf.js'
-// }, done);
-//});
-
-
-//=============================================================================
 //WATCH - watches whatever files are listed and runs the associated
 //task if those files change.
 //=============================================================================
@@ -223,6 +207,20 @@ gulp.task('watch', function() {
 });
 gulp.task('watchBuildHtml', ['index', 'partials'], function() {
     browserSync.reload();
+});
+
+
+//=============================================================================
+//NODEMON - start nodemon, watch, and restart on change
+//=============================================================================
+
+gulp.task('nodemon', ['browser-sync'], function() {
+    nodemon({
+        script: 'index.js',
+        ext: 'js'
+    }).on('start', function() {
+        browserSync.reload();
+    });
 });
 
 //=============================================================================
@@ -366,35 +364,7 @@ gulp.task('war', ['indexBuild'], function() {
 //=============================================================================
 //DEFAULT TASK - what gets run when you type 'gulp' into command line
 //=============================================================================
-//, 'ngdocs' <--- to be added back in when I am ready for the docs to
-//be generated
 gulp.task('default', [], function () {
-    //if(srvenv === undefined || srvseq === undefined) {
-    //    console.log('\n*********************************');
-    //    console.log('The --srvseq command-line switches must be used
-    //when calling Gulp directly. These values will indicate the local
-    //running sequence and help Gulp configure the appropriate API URLs
-    //programmatically. Please consider using the build.bat script instead
-    //which detects the running environment automatically and also runs npm,
-    //    bower, gulp, etc.');
-    //    console.log(' - OR - ');
-    // console.log('e.g. gulp --srvenv qa --srvseq 1');
-    //    console.log('e.g. gulp --srvenv [prod,qa,dev] --srvseq
-    //    [1,2,3] [--watchoff [true,false]] [--smashoff [true,false]]');
-    //    console.log('*********************************\n');
-    //} else {
-    // console.log(
-    //    //'Gulp is working in the \'' + srvenv + '\' environment; ' +
-    //    'sequence is set to \'' + srvseq + '\'; '
-    // );
-    // console.log(
-    //    'Watchoff is set to \'' + watchoff + '\'; '
-    // );
-    // console.log(
-    //    'Smashoff is set to \'' + smashoff + '\'; '
-    // );
-    //    gulp.start('build');
-    //}
     gulp.start('build');
 });
 
@@ -407,7 +377,7 @@ gulp.task('run', ['styles', 'vendor-scripts', 'app-scripts',
     gulp.start('index');
     if(watchoff === undefined || watchoff === 'false') {
         console.log('Running Gulp in \'watch\' mode!');
-        gulp.start('browser-sync', 'watch');
+        gulp.start('nodemon', 'watch');
     }
 });
 
