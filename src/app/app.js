@@ -1,4 +1,6 @@
 var app = angular.module('chatty', [
+    'chattyAdmin',
+    'chattyUser',
     'croppieWrapper',
     'LocalStorageModule',
     'ngAnimate',
@@ -23,6 +25,11 @@ app.config(['$httpProvider', '$stateProvider', '$urlRouterProvider', 'localStora
             url: '/main',
             templateUrl: 'common/states/mainArea/mainArea.html',
             controller: 'mainAreaCtrl'
+        })
+        .state('signup', {
+            url: '/signup',
+            templateUrl: 'common/states/signup/signup.html',
+            controller: 'signupCtrl'
         });
 
     localStorageServiceProvider.setPrefix('chatty').setStorageCookieDomain(window.location).setNotify(true, true);
