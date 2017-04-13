@@ -6,13 +6,15 @@ var express = require("express"),
     session = require("express-session"),
     passport = require("passport"),
     localStrategy = require("passport-local"),
-    path = require("path");
+    path = require("path"),
+    userCtrl = require('./src/server/controllers/userCtrl.js'),
+    User = require('./src/server/models/userModel.js');
 
 var MongoStore = require("connect-mongo")(session);
 
 passport.use("local", new localStrategy({
-    usernameField: "email",
-    passwordField: "password",
+    usernameField: "Email",
+    passwordField: "Password",
     passReqToCallback: true
 }, function(req, email, password, done) {
     process.nextTick(function() {
@@ -74,7 +76,11 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Authentication Endpoints
+app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/login' }), userCtrl.getUser);
+app.post('/auth/addAccount', userCtrl.create, passport.authenticate('local', {failureRedirect: '/login'}), userCtrl.getUser);
+
 
 server.listen(config.port, function() {
-    console.log("listening on port :" + config.port);
+    console.log('listening on port :' + config.port);
 });

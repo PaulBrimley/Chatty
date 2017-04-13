@@ -1,0 +1,123 @@
+<div class="signup">
+  <form role="form" name="signupForm" class="form-horizontal signup_form">
+    <fieldset>
+      <legend>Personal Information</legend>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" data-ng-class="{'signup_form_error': (signupForm.userUsername.$invalid && signupForm.$submitted)}">Username</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userUsername"
+              name="userUsername"
+              type="text"
+              data-ng-model="user.Username"
+              required
+              data-focus-element="{{true}}"
+              placeholder="Enter a username"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" data-ng-class="{'signup_form_error': (signupForm.userFirstName.$invalid && signupForm.$submitted)}">First Name</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userFirstName"
+              name="userFirstName"
+              type="text"
+              data-ng-model="user.FirstName"
+              required
+              placeholder="Enter your first name"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" data-ng-class="{'signup_form_error': (signupForm.userLastName.$invalid && signupForm.$submitted)}">Last Name</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userLastName"
+              name="userLastName"
+              type="text"
+              data-ng-model="user.LastName"
+              required
+              placeholder="Enter your last name"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <br/>
+
+    <fieldset>
+      <legend>Email</legend>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" data-ng-class="{'signup_form_error': (signupForm.userEmail.$invalid && signupForm.$submitted)}">Email</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userEmail"
+              name="userEmail"
+              type="text"
+              data-ng-model="user.Email"
+              required
+              placeholder="Enter your email"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" data-ng-class="{'signup_form_error': (signupForm.userConfirmEmail.$invalid && signupForm.$submitted)}">Confirm Email</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userConfirmEmail"
+              name="userConfirmEmail"
+              type="text"
+              data-ng-model="user.ConfirmEmail"
+              required
+              placeholder="Confirm your email"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <br/>
+
+    <fieldset>
+      <legend>Password</legend>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" data-ng-class="{'signup_form_error': (signupForm.userPassword.$invalid && signupForm.$submitted)}">Password</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userPassword"
+              name="userPassword"
+              type="password"
+              data-ng-model="user.Password"
+              required
+              placeholder="Enter your password"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label signup_form_label" data-ng-class="{'signup_form_error': (signupForm.userConfirmPassword.$invalid && signupForm.$submitted)}">Confirm Password</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userConfirmPassword"
+              name="userConfirmPassword"
+              type="password"
+              data-ng-model="user.ConfirmPassword"
+              required
+              placeholder="Confirm your password"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="signup_form_buttons">
+      <div class="signup_form_cancel_button" data-ng-click="cancelSignup()">Cancel</div>
+      <div
+          class="signup_form_signup_button"
+          data-ng-click="signup(signupForm)"
+          data-ng-class="{'pointer_events_none': loading}">Sign up</div>
+    </div>
+  </form>
+</div>

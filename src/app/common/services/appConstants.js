@@ -1,0 +1,1 @@
+app.constant('APIURL', {baseUrl: 'http://localhost:8080'});

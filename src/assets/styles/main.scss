@@ -7,3 +7,71 @@ $icon-font-path: 'fonts/bootstrap/' !default;
 @import 'node_modules/ng-img-crop/source/scss/ng-img-crop.scss';
 @import 'node_modules/angularjs-toaster/toaster.scss';
 @import 'croppie.scss';
+@import 'login.scss';
+@import 'signup.scss';
+
+
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  position: relative;
+}
+
+.main_area_container {
+  position: relative;
+  height: 100vh;
+  .main_area {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    &.ng-enter {
+      transition: 0.5s;
+      opacity: 0;
+    }
+    &.ng-enter-active {
+      opacity: 1;
+    }
+  }
+}
+
+/* Animation */
+.animate_fade_in {
+  opacity: 1;
+}
+.animate_fade_in.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+.animate_fade_in.ng-hide {
+  opacity: 0;
+}
+
+.animate_fade_both {
+  opacity: 1;
+}
+.animate_fade_both.ng-hide-add, .animate_fade_both.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+.animate_fade_both.ng-hide {
+  opacity: 0;
+}
+
+.spinner_animation {
+  animation: spin 4s infinite;
+}
+@keyframes spin {
+  0% {transform: rotate(0deg)}
+  100% {transform: rotate(360deg)}
+}
+
+
+/* Misc */
+.pointer_events_none {
+  pointer-events: none;
+}

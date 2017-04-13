@@ -1,0 +1,64 @@
+.login {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .login_form {
+    min-width: 40%;
+    input {
+      background-color: transparent;
+      border-color: $lTan;
+      &::placeholder {
+        color: $dTan;
+      }
+    }
+    label {
+      color: $dTan;
+    }
+    legend {
+      color: $brown;
+    }
+    .login_form_buttons {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      div {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 3px;
+        padding: 2px 20px;
+        margin: 0 5px 5px;
+        min-width: 120px;
+        cursor: pointer;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+        transition: all .3s;
+        &:active {
+          top: 1px;
+        }
+      }
+      .login_form_login_button {
+        border: 1px solid $blue;
+        color: $blue;
+        &:hover {
+          background-color: $blue;
+          color: #fff;
+        }
+      }
+      .login_form_signup_button {
+        border: 1px solid $brown;
+        color: $brown;
+        &:hover {
+          background-color: $brown;
+          color: #fff;
+        }
+      }
+    }
+    .login_form_error {
+      color: $rose;
+    }
+  }
+}

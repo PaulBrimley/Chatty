@@ -1,1 +1,42 @@
-Here
+<div class="login">
+  <form role="form" name="loginForm" class="form-horizontal login_form">
+    <fieldset>
+      <legend>Login</legend>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" data-ng-class="{'login_form_error': (loginForm.userUsernameEmail.$invalid && loginForm.$submitted)}">Username or Email</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userUsernameEmail"
+              name="userUsernameEmail"
+              type="text"
+              data-ng-model="user.UsernameEmail"
+              required
+              data-focus-element="{{true}}"
+              placeholder="Enter your username or email"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" data-ng-class="{'login_form_error': (loginForm.userPassword.$invalid && loginForm.$submitted)}">Password</label>
+        <div class="col-sm-9">
+          <input
+              class="form-control"
+              id="userPassword"
+              name="userPassword"
+              type="password"
+              data-ng-model="user.Password"
+              required
+              placeholder="Enter your password"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="login_form_buttons">
+      <div class="login_form_login_button" data-ng-click="login(loginForm)" data-ng-class="{'pointer_events_none': loading}">Login</div>
+      <div
+          class="login_form_signup_button"
+          data-ng-click="signup()">Sign up</div>
+    </div>
+  </form>
+</div>

@@ -120,7 +120,6 @@ gulp.task('app-scripts', [], function () {
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(concat('app-' + p.version + '.min.js'))
-        //.pipe(replace(env.api[srvenv].pattern, env.api[srvenv].value))
         .pipe(ngAnnotate())
         .pipe(gulpif((smashoff === 'false'), uglify()))
         .pipe(sourcemaps.write('.', {sourceRoot: '/maps'}))
