@@ -1,1 +1,1 @@
-app.constant('APIURL', {baseUrl: 'http://localhost:8080'});
+app.constant('APIURL', {baseUrl: 'http://localhost:6969'});

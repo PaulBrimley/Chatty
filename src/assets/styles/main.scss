@@ -6,8 +6,11 @@ $icon-font-path: 'fonts/bootstrap/' !default;
 @import 'node_modules/croppie/croppie.css';
 @import 'node_modules/ng-img-crop/source/scss/ng-img-crop.scss';
 @import 'node_modules/angularjs-toaster/toaster.scss';
+@import 'background.scss';
 @import 'croppie.scss';
+@import 'header.scss';
 @import 'login.scss';
+@import 'navigation.scss';
 @import 'signup.scss';
 
 
@@ -31,12 +34,22 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
+    background-color: $lTan;
+    display: flex;
+    flex-direction: column;
     &.ng-enter {
       transition: 0.5s;
       opacity: 0;
     }
     &.ng-enter-active {
       opacity: 1;
+    }
+    .view_container {
+      flex: 1 1 auto;
+      display: flex;
+      .view {
+        flex: 1 1 auto;
+      }
     }
   }
 }

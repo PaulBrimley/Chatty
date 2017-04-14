@@ -1,44 +1,41 @@
-var express = require("express"),
-    config = require("./src/server/config"),
-    cors = require("cors"),
-    bodyParser = require("body-parser"),
-    mongoose = require("mongoose"),
-    session = require("express-session"),
-    passport = require("passport"),
-    localStrategy = require("passport-local"),
-    path = require("path"),
+var express = require('express'),
+    config = require('./src/server/config'),
+    cors = require('cors'),
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose'),
+    session = require('express-session'),
+    passport = require('passport'),
+    localStrategy = require('passport-local'),
+    path = require('path'),
     userCtrl = require('./src/server/controllers/userCtrl.js'),
     User = require('./src/server/models/userModel.js');
 
-var MongoStore = require("connect-mongo")(session);
+var MongoStore = require('connect-mongo')(session);
 
-passport.use("local", new localStrategy({
-    usernameField: "Email",
-    passwordField: "Password",
+passport.use('local', new localStrategy({
+    usernameField: 'UsernameEmail',
+    passwordField: 'Password',
     passReqToCallback: true
 }, function(req, email, password, done) {
     process.nextTick(function() {
         //possibly pull this code out to userCtrl
-        User.findOne({"email": email}, function(err, user) {
+        User.findOne({'Email': email}, function(err, user) {
             if (err) return done(err);
             else if(user) {
-                user.validPassword(password)
+                user.validPassword(password, user.Password)
                     .then(function(response) {
-                        if(response === true) {
-                            user.loggedIn = true;
-                            user.save(function(err, result) {
-                                if (err) return done("Server Error", false);
-                                else return done(null, result);
-                            });
-                        } else {
-                            return done("Password incorrect", false);
+                        if (response) {
+                            return done(null, user);
+                        }
+                        else {
+                            return done('Password incorrect', false);
                         }
                     })
                     .catch(function(err) {
-                        return done("Server Error", false);
+                        return done('Server Error', false);
                     });
             } else {
-                return done("User not found", false);
+                return done('User not found', false);
             }
         });
     });
@@ -51,36 +48,32 @@ passport.deserializeUser(function(user, done) {
 });
 
 var app = express();
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname + '/dist'));
-
-var mongoUri = config.mongoUri;
-mongoose.connect(mongoUri);
-mongoose.connection.once("open", function() {
-    console.log("Connected to MongoDB");
-});
-
-var sessionMiddleware = session({
+app.use(session({
     secret: config.secret,
     saveUninitialized: config.saveUninitialized,
-    resave: config.resave,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
-});
-
-app.use(sessionMiddleware);
+    resave: config.resave
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Authentication Endpoints
-app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/login' }), userCtrl.getUser);
-app.post('/auth/addAccount', userCtrl.create, passport.authenticate('local', {failureRedirect: '/login'}), userCtrl.getUser);
+mongoose.connect(config.mongoUri);
+mongoose.connection.once('open', function() {
+    console.log('Connected to MongoDB');
+});
+mongoose.Promise = require('q').Promise;
 
+
+//Authentication Endpoints
+app.post('/auth/login', userCtrl.authenticate);
+app.post('/auth/addAccount', userCtrl.create, userCtrl.authenticate);
 
 server.listen(config.port, function() {
-    console.log('listening on port :' + config.port);
+    console.log('listening on port: ' + config.port);
 });

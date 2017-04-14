@@ -7,10 +7,10 @@ user.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $
             url: '/user',
             template: '<div data-ui-view></div>'
         })
-        .state('main.user.chats', {
-            url: '/chats',
-            templateUrl: 'user/states/chats/chats.html',
-            controller: 'chatsCtrl'
+        .state('main.user.messages', {
+            url: '/messages',
+            templateUrl: 'user/states/messages/messages.html',
+            controller: 'messagesCtrl'
         })
         .state('main.user.profile', {
             url: '/profile',

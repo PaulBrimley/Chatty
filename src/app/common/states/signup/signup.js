@@ -1,4 +1,4 @@
-app.controller('signupCtrl', ['$scope', '$state', 'loginSvc', 'signupSvc', 'toaster', function($scope, $state, loginSvc, signupSvc, toaster) {
+app.controller('signupCtrl', ['$scope', '$state', 'toaster', 'userSvc', function($scope, $state, toaster, userSvc) {
 
     $scope.loading = false;
     $scope.user = {
@@ -36,13 +36,11 @@ app.controller('signupCtrl', ['$scope', '$state', 'loginSvc', 'signupSvc', 'toas
         }
 
         var toasterInstance = toaster.pop('warning', 'Signing up', 'We are working on signing up', 0);
-        signupSvc.signup($scope.user).then(function (response) {
+        userSvc.signup($scope.user).then(function (response) {
             toaster.clear(toasterInstance);
+            $scope.loading = false;
             if (response) {
                 toaster.pop('success', 'Success!', 'You have successfully signed up.');
-                loginSvc.login($scope.user).then(function(response) {
-
-                });
             } else {
                 toaster.pop('error', 'Error', 'Something went wrong. Please try again later.');
             }

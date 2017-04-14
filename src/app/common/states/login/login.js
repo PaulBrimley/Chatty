@@ -1,10 +1,12 @@
-app.controller('loginCtrl', ['$scope', '$state', 'loginSvc', 'toaster', function($scope, $state, loginSvc, toaster) {
+app.controller('loginCtrl', ['$scope', '$state', 'mainSvc', 'toaster', 'userSvc', function($scope, $state, mainSvc, toaster, userSvc) {
 
     $scope.loading = false;
-    $scope.user = {};
+    $scope.user = {
+        UsernameEmail: 'asdf@gmail.com',
+        Password: 'asdf'
+    };
 
     $scope.login = function(loginForm) {
-        console.log('logging in', $scope.user);
         if ($scope.loading) return false;
         $scope.loading = true;
         loginForm.$submitted = true;
@@ -14,9 +16,11 @@ app.controller('loginCtrl', ['$scope', '$state', 'loginSvc', 'toaster', function
             return false;
         }
 
-        loginSvc.login($scope.user).then(function(response) {
+        userSvc.login($scope.user).then(function(response) {
+            $scope.loading = false;
             if (response) {
                 toaster.pop('success', 'Success!', 'You have successfully logged in.');
+                $state.go(mainSvc.application.currentView);
             } else {
                 toaster.pop('error', 'Error', 'Something went wrong. Please try again later.');
             }

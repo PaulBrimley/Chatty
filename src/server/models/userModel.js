@@ -3,39 +3,38 @@ var mongoose = require('mongoose'),
 	q = require('q');
 
 var userSchema = new mongoose.Schema({
-    email: {type: 'String', unique: true},
-    facebookId: {type: 'String'},
-    firstName: {type: 'String'},
-    lastName: {type: 'String'},
-    password: {type: 'String'},
-    photo: {type: 'String'},
-    roles: [{type: 'String', enum: ['Admin', 'User']}],
-    userName: {type: 'String'}
+    Email: {type: 'String', unique: true},
+    FacebookId: {type: 'String'},
+    FirstName: {type: 'String'},
+    LastName: {type: 'String'},
+    Password: {type: 'String'},
+    Photo: {type: 'String'},
+    Roles: [{type: 'String', enum: ['Admin', 'User']}],
+    Username: {type: 'String'}
 });
 
 userSchema.methods.generateHash = function (password) {
 	var dfd = q.defer();
 	bcrypt.genSalt(10, function (err, salt) {
 		if (err) {
-			dfd.reject(err);
+			return dfd.reject(err);
 		}
 		bcrypt.hash(password, salt, null, function (err, hash) {
 			password = hash;
-			dfd.resolve(password);
+			return dfd.resolve(password);
 		});
 	});
 	return dfd.promise;
 };
 
-userSchema.methods.validPassword = function (password) {
+userSchema.methods.validPassword = function (password, hash) {
 	var dfd = q.defer();
-
-	bcrypt.compare(password, this.password, function (err, isMatch) {
+	bcrypt.compare(password, hash, function (err, isMatch) {
 		if (err) {
-			dfd.reject(err);
+			return dfd.reject(false);
 		}
 		else {
-			dfd.resolve(isMatch);
+			return dfd.resolve(isMatch);
 		}
 	});
 	return dfd.promise;

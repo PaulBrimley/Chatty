@@ -1,0 +1,28 @@
+.header {
+  position: relative;
+  padding: 10px;
+  margin: 2px;
+  display: flex;
+  justify-content: space-between;
+  background-color: $blue;
+  .logo {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .user_info {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    box-shadow: 5px 5px 10px rgba(50, 50, 50, 0.2);
+  }
+}
